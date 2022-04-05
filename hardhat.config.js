@@ -1,6 +1,9 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
 require("@openzeppelin/hardhat-upgrades");
+require("dotenv").config();
+require("@nomiclabs/hardhat-etherscan");
+require("hardhat-deploy");
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -18,6 +21,23 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+
+const GEORLI_RPC_URL = process.env.GEORLI_RPC_URL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
+
 module.exports = {
-  solidity: "0.8.4",
+  defaultNetwork: "georli",
+  networks: {
+    georli: {
+      url: GEORLI_RPC_URL,
+      accounts: [PRIVATE_KEY],
+    },
+  },
+  solidity: "0.8.2",
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: ETHERSCAN_API_KEY,
+  },
 };
